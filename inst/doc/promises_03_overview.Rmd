@@ -1,9 +1,9 @@
 ---
-title: "Working with `promises` in R"
+title: "Working with promises in R"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{3. Working with promises in R}
+  %\VignetteIndexEntry{Working with promises in R}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -11,7 +11,7 @@ One persistent challenge with developing Shiny apps for live deployment is the R
 
 For many Shiny apps, this isn’t a big problem; because no one processing step takes very long, no client has to wait an undue amount of time before they start seeing results. But for apps that perform long-running operations — either expensive computations that take a while to complete, or waiting on slow network operations like database or web API queries — your users’ experience can suffer dramatically as traffic ramps up.
 
-The traditional approach to scaling web applications is to launch multiple processes and balance traffic between them, and indeed, Shiny Server Pro and RStudio Connect both implement a variant of this strategy. You do some load testing to determine how many concurrent users a single process can support, then [configure Shiny Server Pro](https://docs.rstudio.com/shiny-server/) to launch new processes as those limits are approached.
+The traditional approach to scaling web applications is to launch multiple processes and balance traffic between them, and indeed, Shiny Server Pro and RStudio Connect both implement a variant of this strategy. You do some load testing to determine how many concurrent users a single process can support, then [configure Shiny Server Pro](https://docs.posit.co/shiny-server/) to launch new processes as those limits are approached.
 
 But there are some applications that perform truly expensive operations, like simulations, training neural networks, or complex per-row processing, that take *minutes* to complete. Again, while this is happening, any other users that are unfortunate enough to be assigned to the same process are completely blocked from proceeding in any way — even loading static JavaScript/CSS assets must wait until the blocking operation is complete.
 
@@ -54,7 +54,7 @@ So if a regular, synchronous function call generally looks like this:
 value <- read.csv("http://example.com/data/data.csv")
 ```
 
-An asynchronous function call (which uses [the future package](futures.html) via [`future_promise()`](future_promise.html)) will look instead like:
+An asynchronous function call (which uses [the future package](promises_04_futures.html) via [`future_promise()`](promises_05_future_promise.html)) will look instead like:
 
 ```r
 promise <- future_promise(read.csv("http://example.com/data/data.csv"))
@@ -365,5 +365,5 @@ png_bytes <-
 In this example, we need a temp file for the duration of the pipeline. Our `finally` makes sure the temp file is deleted when the operation is done, regardless of whether it succeeded or failed.
 
 <div style="font-size: 20px; margin-top: 40px; text-align: right;">
-Next: [Launching tasks](futures.html)
+Next: [Launching tasks](promises_04_futures.html)
 </div>

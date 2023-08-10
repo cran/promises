@@ -1,3 +1,6 @@
+# @staticimports pkg:staticimports
+#  is_installed
+
 #' Combine multiple promise objects
 #'
 #' Use `promise_all` to wait for multiple promise objects to all be successfully
@@ -208,4 +211,9 @@ promise_reduce <- function(.x, .f, ..., .init) {
 # * Get failure if we do include it, but don't use it. So using it below.
 function() {
   purrr::reduce
+}
+
+# Determine if `identical(x, FALSE)`
+is_false <- function(x) {
+  is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }

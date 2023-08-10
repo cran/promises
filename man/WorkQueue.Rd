@@ -9,7 +9,7 @@ Future promise work queue
 Future promise work queue
 }
 \details{
-#' \ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>}}{\strong{Experimental}}
+#' \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 An \pkg{R6} class to help with scheduling work to be completed. \code{WorkQueue} will only execute work if the \code{can_proceed()} returns \code{TRUE}. For the use case of \code{future}, \code{can_proceed()} defaults to \code{future::nbrOfFreeWorkers() > 0} which will not allow for work to be executed if a \pkg{future} worker is not available.
 
@@ -35,14 +35,14 @@ However, it is possible to use a private loop inside a user-defined \code{WorkQu
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{WorkQueue$new()}}
-\item \href{#method-schedule_work}{\code{WorkQueue$schedule_work()}}
-\item \href{#method-clone}{\code{WorkQueue$clone()}}
+\item \href{#method-WorkQueue-new}{\code{WorkQueue$new()}}
+\item \href{#method-WorkQueue-schedule_work}{\code{WorkQueue$schedule_work()}}
+\item \href{#method-WorkQueue-clone}{\code{WorkQueue$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-WorkQueue-new"></a>}}
+\if{latex}{\out{\hypertarget{method-WorkQueue-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new \code{WorkQueue}
 \subsection{Usage}{
@@ -67,8 +67,8 @@ Schedule work}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-schedule_work"></a>}}
-\if{latex}{\out{\hypertarget{method-schedule_work}{}}}
+\if{html}{\out{<a id="method-WorkQueue-schedule_work"></a>}}
+\if{latex}{\out{\hypertarget{method-WorkQueue-schedule_work}{}}}
 \subsection{Method \code{schedule_work()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{WorkQueue$schedule_work(fn)}\if{html}{\out{</div>}}
@@ -83,8 +83,8 @@ Schedule work}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-WorkQueue-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-WorkQueue-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
