@@ -375,14 +375,14 @@ will not return until its work is done and it has the value you
 requested, an asynchronous <code>read.csv.async</code> function would
 kick off the CSV reading operation, but then return immediately, long
 before the real work has actually completed.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>read.csv.async <span class="ot">&lt;-</span> <span class="cf">function</span>(file, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) {</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="fu">future_promise</span>({</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>    <span class="fu">read.csv</span>(file, <span class="at">header =</span> header, <span class="at">stringsAsFactors =</span> stringsAsFactors)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  })</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>read.csv.async <span class="ot">&lt;-</span> <span class="cf">function</span>(file, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">future_promise</span>({</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">read.csv</span>(file, <span class="at">header =</span> header, <span class="at">stringsAsFactors =</span> stringsAsFactors)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>(Don’t worry about what this definition means for now. You’ll learn
 more about defining async functions in <a href="promises_04_futures.html">Launching tasks</a> and <a href="promises_05_future_promise.html">Advanced <code>future</code> and
 <code>promises</code> usage</a>.)</p>
@@ -426,15 +426,15 @@ operator?</strong></p>
 itself, but we provide a promise-compatible version of it:
 <code>%...&gt;%</code>. So whereas you might do this to a regular data
 frame:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
 <p>The async version would look like:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%...&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%...&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">View</span>()</span></code></pre></div>
 <p>The <code>%...&gt;%</code> operator here is the secret sauce. It’s
 called the <em>promise pipe</em>; the <code>...</code> stands for
 promise, and <code>&gt;</code> mimics the standard pipe operator.</p>
@@ -469,7 +469,7 @@ future.</p>
 <p><strong>You lost me.</strong></p>
 <p>OK, let’s slow down and take this step by step. We’ll generate a
 promise by calling an async function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>df_promise <span class="ot">&lt;-</span> <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_promise <span class="ot">&lt;-</span> <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>)</span></code></pre></div>
 <p>Even if <code>data.csv</code> is many gigabytes,
 <code>read.csv.async</code> returns immediately with a new promise. We
 store it as <code>df_promise</code>. Eventually, when the CSV reading
@@ -477,8 +477,8 @@ operation successfully completes, the promise will contain a data frame,
 but for now it’s just an empty placeholder.</p>
 <p>One thing we definitely <em>can’t</em> do is treat
 <code>df_promise</code> as if it’s simply a data frame:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Doesn&#39;t work!</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(df_promise, state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Doesn&#39;t work!</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">filter</span>(df_promise, state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
 <p>Try this and you’ll get an error like
 <code>no applicable method for &#39;filter_&#39; applied to an object of class &quot;promise&quot;</code>.
 And the pipe won’t help you either;
@@ -488,7 +488,7 @@ same error.</p>
 work on data frames, and <code>df_promise</code> isn’t a data
 frame.</strong></p>
 <p>Exactly. Now let’s try something that actually works:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>df_promise <span class="sc">%...&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_promise <span class="sc">%...&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
 <p>At the moment it’s called, this code won’t appear to do much of
 anything, really. But whenever the <code>df_promise</code> operation
 actually completes successfully, then the result of that operation—the
@@ -504,11 +504,11 @@ back?</strong></p>
 first.</p>
 <p>When you use a regular <code>%&gt;%</code>, the result you get back
 is the return value from the right-hand side:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>df_filtered <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_filtered <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
 <p>When you use <code>%...&gt;%</code>, the result you get back is a
 promise, whose <em>eventual</em> result will be the return value from
 the right-hand side:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>df_filtered_promise <span class="ot">&lt;-</span> df_promise <span class="sc">%...&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_filtered_promise <span class="ot">&lt;-</span> df_promise <span class="sc">%...&gt;%</span> <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span></code></pre></div>
 <p><strong>Wait, what? If I have a promise, I can do stuff to it using
 <code>%...&gt;%</code>, but then I just end up with another promise? Why
 not just have <code>%...&gt;%</code> return a regular value instead of a
@@ -532,10 +532,10 @@ of a Shiny app.</p>
 async-compatible version of Shiny (version &gt;=1.1), all of the
 built-in <code>renderXXX</code> functions can deal with either regular
 values or promises. An example of the latter:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>When <code>output$table</code> executes the <code>renderTable</code>
 code block, it will notice that the result is a promise, and wait for it
 to complete before continuing with the table rendering. While it’s
@@ -543,30 +543,30 @@ waiting, the R process can move on to do other things.</p>
 <p>Second, you can use promises with reactive expressions. Reactive
 expressions treat promises about the same as they treat other values,
 actually. But this works perfectly fine:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># A reactive expression that returns a promise</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%...&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    <span class="fu">arrange</span>(median_income)</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>})</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co"># A reactive expression that reads the previous</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co"># (promise-returning) reactive, and returns a</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># new promise</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>top_n_by_income <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="fu">filtered_df</span>() <span class="sc">%...&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    <span class="fu">head</span>(input<span class="sc">$</span>n)</span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>})</span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>  <span class="fu">top_n_by_income</span>()</span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A reactive expression that returns a promise</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read.csv.async</span>(<span class="st">&quot;https://rstudio.github.io/promises/data.csv&quot;</span>) <span class="sc">%...&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(state <span class="sc">==</span> <span class="st">&quot;NY&quot;</span>) <span class="sc">%...&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(median_income)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># A reactive expression that reads the previous</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># (promise-returning) reactive, and returns a</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># new promise</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>top_n_by_income <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtered_df</span>() <span class="sc">%...&gt;%</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(input<span class="sc">$</span>n)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>table <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">top_n_by_income</span>()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>Third, you can use promises in reactive observers. Use them to
 perform asynchronous tasks in response to reactivity.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>save, {</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">filtered_df</span>() <span class="sc">%...&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="fu">write.csv</span>(<span class="st">&quot;ny_data.csv&quot;</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">observeEvent</span>(input<span class="sc">$</span>save, {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filtered_df</span>() <span class="sc">%...&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.csv</span>(<span class="st">&quot;ny_data.csv&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p><strong>Alright, I think I see what you mean. You can’t escape from
 promise-land, but there’s no need to, because Shiny knows what to do
 with them.</strong></p>

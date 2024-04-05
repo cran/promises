@@ -364,11 +364,11 @@ Overview</a>.</p>
 <p>The main API that <code>future</code> provides couldn’t be simpler.
 You call <code>future()</code> and pass it the code that you want
 executed asynchronously:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="co"># expensive operations go here...</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">download_lots_of_data</span>()</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">fit_model</span>(df)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">future</span>({</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># expensive operations go here...</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">download_lots_of_data</span>()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_model</span>(df)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div>
 <p>The object that’s returned is a future, which for all intents and
 purposes is a promise object<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>, which will eventually resolve to the
 return value of the code block (i.e. the last expression) or an error if
@@ -410,23 +410,19 @@ which is what the majority of R users use. There are also some dangerous
 edge cases with this style of execution (Google “fork without exec” for
 more information), though popular frameworks like RServe and OpenCPU
 rely heavily on this and don’t seem to suffer for it.</li>
-<li><code>multiprocess</code>: This is a meta-method that uses
-<code>multicore</code> on platforms where it’s available, and
-<code>multisession</code> on Windows. In theory this means that you get
-the best performance available for each platform. In practice, since the
-two implementations are so different, it’s very important that you test
-your app on all of the platforms you intend your app to be used on (or,
-if your development machine is non-Windows, test with both
-<code>multicore</code> (or <code>multiprocess</code>) and
-<code>multisession</code>).</li>
 </ul>
-<p>The <code>future</code> package includes several other methods. Two
-of them, <code>sequential</code> and <code>transparent</code>, execute
-synchronously and are therefore not relevant for our purposes. There are
-also <code>cluster</code> and <code>remote</code> methods, as well as a
-separate <code>future.batchtools</code> package, for doing distributed
-execution; those may work with promises, but have not been tested by our
-team and are not described further in this document.</p>
+<p>The <code>future</code> package also includes a
+<code>sequential</code> method, which executes synchronously and is
+therefore not relevant for our purposes. Unfortunately,
+<code>sequential</code> is the default, hence explicitly calling
+<code>plan()</code> with a different method is a must.</p>
+<p>There is also a <code>cluster</code> method, as well as a separate
+<code>future.batchtools</code> package, for doing distributed execution;
+those may work with promises, but have not been tested by our team and
+are not described further in this document.</p>
+<p>To learn more, see the <a href="https://future.futureverse.org/reference/plan.html"><code>future::plan()</code>
+reference docs</a> as well as the <a href="https://future.futureverse.org/articles/future-1-overview.html#controlling-how-futures-are-resolved"><code>future</code>
+overview</a>.</p>
 </div>
 <div id="caveats-and-limitations" class="section level2">
 <h2>Caveats and limitations</h2>
