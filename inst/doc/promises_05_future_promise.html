@@ -375,19 +375,19 @@ two <code>future</code> workers available. Also, let’s assume the
 <code>plumber</code> route(s) serving the first 6 requests use
 <code>future::future()</code> and take ~10s to compute
 <code>slow_calc()</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#* @get /slow/&lt;k&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>() {</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  future<span class="sc">::</span><span class="fu">future</span>({</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slow_calc</span>()</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#* @get /slow/&lt;k&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="cf">function</span>() {</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  future<span class="sc">::</span><span class="fu">future</span>({</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>    <span class="fu">slow_calc</span>()</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  })</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>Let’s also assume the <code>plumber</code> route serving the last
 request does not use any form of <code>future</code> or
 <code>promises</code> and takes almost no time to compute.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#* @get /fast/&lt;k&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>() {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fast_calc</span>()</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#* @get /fast/&lt;k&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="cf">function</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">fast_calc</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>}</span></code></pre></div>
 <p>The figure below depicts the overall timeline of execution of these 7
 requests under the conditions we’ve outlined above. Note that the y-axis
 is ordered from first request coming in (<code>/slow/1</code>) to the
@@ -419,12 +419,12 @@ is requested and can’t immediately perform the work (i.e., the number of
 jobs exceeds the number of workers).</p>
 <p>Continuing with the example above, we can swap out the calls to
 <code>future::future()</code> with <code>future_promise()</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#* @get /slow/&lt;k&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>() {</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  promises<span class="sc">::</span><span class="fu">future_promise</span>({</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slow_calc</span>()</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#* @get /slow/&lt;k&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="cf">function</span>() {</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  promises<span class="sc">::</span><span class="fu">future_promise</span>({</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="fu">slow_calc</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  })</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>With this change to <code>future_promise()</code>, note how the
 <code>/fast/7</code> route now does not have to wait on
 <code>future</code> work to finish processing. Therefore,
